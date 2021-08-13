@@ -184,7 +184,7 @@ int main()
     free(buf);
 
     // Try all keys
-    unsigned char* keys = malloc(max_index*sizeof(unsigned char));
+    unsigned char* keys = (unsigned char*)malloc(max_index*sizeof(unsigned char));
     if (!keys)
         return 1;
     for (unsigned int i = 0; i < max_index; ++i)
