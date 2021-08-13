@@ -1,4 +1,4 @@
-
+#include "cbc-decrypt.h"
 #include "aes.h"
 #include <stdio.h>
 #include <string.h>
@@ -48,7 +48,7 @@ int cbcdec(unsigned char *CText, int length)
     for (int i = 0; i < 16; i++)
     {
       MBlock[i] ^= CBlock_prev[i];
-      // fprintf(fpOut, "%X", MBlock[i]/16), fprintf(fpOut, "%X", MBlock[i]%16);
+      //printf("%X", MBlock[i]/16), printf("%X", MBlock[i]%16);
       // Uncomment this to output the message + the padding for debugging purposes.
       // If we were implementing this for real, we would only output the message
       CBlock_prev[i] = CBlock_cur[i];
@@ -59,14 +59,14 @@ int cbcdec(unsigned char *CText, int length)
   j = MBlock[15];
   if ((j == 0) || (j > 16))
   {
-    // printf("Error: final byte out of range\n");
+    printf("Error: final byte out of range\n");
     return 0;
   }
   for (int i = 14; i >= 16 - j; i--)
   {
     if (MBlock[i] != j)
     {
-      // printf("Error: incorrect padding\n");
+      printf("Error: incorrect padding\n");
       return 0;
     }
   }

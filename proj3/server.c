@@ -21,7 +21,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
-//#include "cbc-decrypt.h"
+#include "cbc-decrypt.h"
 #include <pthread.h>
 #include <time.h>
 #include <sys/syscall.h>
@@ -34,8 +34,7 @@ void *connection_handler(void *sd);
 
 char *get_time()
 {
-  time_t curr_time;
-  curr_time = time(0);
+  time_t curr_time = time(0);
   char *p = ctime(&curr_time);
   p[strlen(p) - 1] = 0;
   return p;
@@ -46,7 +45,6 @@ int main(int argc, char **argv)
   int listenfd, sd;
   struct sockaddr_in incoming_addr;
   struct sockaddr_storage client_addr;
-  socklen_t client_addr_len;
   char ipstr[INET_ADDRSTRLEN];
   pthread_t thread_id;
 
@@ -92,7 +90,7 @@ int main(int argc, char **argv)
       perror("Error accepting connection.\n");
       exit(errno);
     }
-    client_addr_len = sizeof(client_addr);
+    socklen_t client_addr_len = sizeof(client_addr);
     getpeername(sd, (struct sockaddr *)&client_addr, &client_addr_len);
     struct sockaddr_in *s = (struct sockaddr_in *)&client_addr;
     inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof(ipstr));
@@ -120,9 +118,9 @@ void *connection_handler(void *sd)
 {
   unsigned char buf[BUF_SIZE], ctext[CTEXT_LEN];
   char response[2];
-  int block_len, rc;
+  int rc;
   int sock = *(int *)sd;
-  pthread_t my_id = pthread_self();
+  //pthread_t my_id = pthread_self();
 
   printf("[%s] New thread (tid=%lu) spawned successfully.\n", get_time(), syscall(SYS_gettid));
   fflush(stdout);
@@ -133,7 +131,7 @@ void *connection_handler(void *sd)
   // buf will be of form < Ciphertext(48) | Blocklen(1) | Null-terminator(1) >
   while (read(sock, buf, BUF_SIZE))
   {
-    block_len = (int)buf[0];
+    int block_len = (int)buf[0];
 
     //[DEBUG INCOMING MSGS]
     //int i; for(i=0;i<(block_len*16+2);i++) { printf("%02x|", buf[i]); } printf("\n");
