@@ -56,3 +56,5 @@ ptext.txt
 decrypt
 .gitignore
 encrypt
+proj3/hex2ascii
+proj4/.vscode/c_cpp_properties.json

@@ -9,14 +9,22 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [],
+            "args": ["ctext.txt"],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "targetArchitecture": "arm64",
             "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang build active file"
+            //"preLaunchTask": "C/C++: clang build sample"
         },
+        {
+            "name": "Launch",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": ["ctext.txt"],
+            "stopAtEntry": true,
+        }
     ]
 }
